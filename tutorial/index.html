@@ -1,0 +1,916 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Внутрішній посібник kdnagency: як перейти з Linear на Huly. Українською, з покроковим туторіалом.">
+<title>Huly для команди kdnagency — перехід з Linear</title>
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('kdn-huly-theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+<!-- BODY:START -->
+<style>
+  /* ---------- Reset ---------- */
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body { margin: 0; }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; }
+  button { font: inherit; color: inherit; }
+
+  /* ---------- Tokens: light ---------- */
+  :root {
+    --ground: #f5f6f8;
+    --surface: #ffffff;
+    --surface-2: #fbfbfd;
+    --ink: #14161c;
+    --ink-soft: #3b4150;
+    --muted: #6b7280;
+    --faint: #9aa1ad;
+    --border: #e7e9ee;
+    --border-strong: #d5d9e0;
+    --accent: #6a4cf0;
+    --accent-press: #573bd6;
+    --accent-ink: #ffffff;
+    --accent-soft: rgba(106, 76, 240, 0.09);
+    --accent-line: rgba(106, 76, 240, 0.28);
+    --warm: #c9631a;
+    --warm-soft: rgba(201, 99, 26, 0.10);
+    --warm-line: rgba(201, 99, 26, 0.30);
+    --good: #1f9d63;
+    --good-soft: rgba(31, 157, 99, 0.12);
+    --amber: #c8891a;
+    --amber-soft: rgba(200, 137, 26, 0.14);
+    --red: #d94a3d;
+    --red-soft: rgba(217, 74, 61, 0.12);
+    --blue: #2f74d0;
+    --blue-soft: rgba(47, 116, 208, 0.12);
+    --grey-soft: rgba(107, 114, 128, 0.14);
+    --shadow: 0 1px 2px rgba(20, 22, 28, 0.04), 0 8px 24px rgba(20, 22, 28, 0.06);
+    --shadow-sm: 0 1px 2px rgba(20, 22, 28, 0.05);
+    --radius: 14px;
+    --radius-sm: 9px;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, "Liberation Mono", monospace;
+    --measure: 68ch;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0d0e12;
+      --surface: #15171d;
+      --surface-2: #191c23;
+      --ink: #edeef2;
+      --ink-soft: #c6cad3;
+      --muted: #8b93a1;
+      --faint: #6a7180;
+      --border: #262a33;
+      --border-strong: #353b47;
+      --accent: #927bff;
+      --accent-press: #a996ff;
+      --accent-ink: #14121f;
+      --accent-soft: rgba(146, 123, 255, 0.13);
+      --accent-line: rgba(146, 123, 255, 0.34);
+      --warm: #eb9350;
+      --warm-soft: rgba(235, 147, 80, 0.13);
+      --warm-line: rgba(235, 147, 80, 0.34);
+      --good: #3fc487;
+      --good-soft: rgba(63, 196, 135, 0.15);
+      --amber: #e6b455;
+      --amber-soft: rgba(230, 180, 85, 0.16);
+      --red: #f2695c;
+      --red-soft: rgba(242, 105, 92, 0.15);
+      --blue: #62a0f0;
+      --blue-soft: rgba(98, 160, 240, 0.16);
+      --grey-soft: rgba(139, 147, 161, 0.16);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 32px rgba(0, 0, 0, 0.42);
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    }
+  }
+  /* Explicit toggle overrides (win in both directions) */
+  :root[data-theme="light"] {
+    --ground: #f5f6f8; --surface: #ffffff; --surface-2: #fbfbfd;
+    --ink: #14161c; --ink-soft: #3b4150; --muted: #6b7280; --faint: #9aa1ad;
+    --border: #e7e9ee; --border-strong: #d5d9e0;
+    --accent: #6a4cf0; --accent-press: #573bd6; --accent-ink: #ffffff;
+    --accent-soft: rgba(106,76,240,0.09); --accent-line: rgba(106,76,240,0.28);
+    --warm: #c9631a; --warm-soft: rgba(201,99,26,0.10); --warm-line: rgba(201,99,26,0.30);
+    --good: #1f9d63; --good-soft: rgba(31,157,99,0.12);
+    --amber: #c8891a; --amber-soft: rgba(200,137,26,0.14);
+    --red: #d94a3d; --red-soft: rgba(217,74,61,0.12);
+    --blue: #2f74d0; --blue-soft: rgba(47,116,208,0.12);
+    --grey-soft: rgba(107,114,128,0.14);
+    --shadow: 0 1px 2px rgba(20,22,28,0.04), 0 8px 24px rgba(20,22,28,0.06);
+    --shadow-sm: 0 1px 2px rgba(20,22,28,0.05);
+  }
+  :root[data-theme="dark"] {
+    --ground: #0d0e12; --surface: #15171d; --surface-2: #191c23;
+    --ink: #edeef2; --ink-soft: #c6cad3; --muted: #8b93a1; --faint: #6a7180;
+    --border: #262a33; --border-strong: #353b47;
+    --accent: #927bff; --accent-press: #a996ff; --accent-ink: #14121f;
+    --accent-soft: rgba(146,123,255,0.13); --accent-line: rgba(146,123,255,0.34);
+    --warm: #eb9350; --warm-soft: rgba(235,147,80,0.13); --warm-line: rgba(235,147,80,0.34);
+    --good: #3fc487; --good-soft: rgba(63,196,135,0.15);
+    --amber: #e6b455; --amber-soft: rgba(230,180,85,0.16);
+    --red: #f2695c; --red-soft: rgba(242,105,92,0.15);
+    --blue: #62a0f0; --blue-soft: rgba(98,160,240,0.16);
+    --grey-soft: rgba(139,147,161,0.16);
+    --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 12px 32px rgba(0,0,0,0.42);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection { background: var(--accent-line); color: var(--ink); }
+
+  /* ---------- Layout shell ---------- */
+  .shell { display: grid; grid-template-columns: 288px minmax(0, 1fr); gap: 0; max-width: 1320px; margin: 0 auto; }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar {
+    position: sticky; top: 0; align-self: start;
+    height: 100vh; height: 100dvh;
+    display: flex; flex-direction: column;
+    border-right: 1px solid var(--border);
+    background: var(--surface);
+    padding: 22px 18px 18px;
+    overflow-y: auto;
+  }
+  .brand { display: flex; align-items: center; gap: 11px; padding: 4px 8px 18px; }
+  .brand .mark {
+    width: 34px; height: 34px; border-radius: 9px; flex: none;
+    background: linear-gradient(150deg, var(--accent), var(--accent-press));
+    display: grid; place-items: center;
+    color: var(--accent-ink); font-weight: 800; font-size: 17px;
+    box-shadow: var(--shadow-sm);
+  }
+  .brand .who { display: flex; flex-direction: column; line-height: 1.2; }
+  .brand .who b { font-size: 14px; letter-spacing: -0.01em; }
+  .brand .who span { font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.09em; }
+
+  .toc { display: flex; flex-direction: column; gap: 1px; margin-top: 4px; }
+  .toc a {
+    display: flex; align-items: baseline; gap: 10px;
+    text-decoration: none; color: var(--ink-soft);
+    padding: 7px 10px; border-radius: 8px;
+    font-size: 13.5px; letter-spacing: -0.005em;
+    transition: background .13s ease, color .13s ease;
+  }
+  .toc a .n {
+    font-family: var(--mono); font-size: 11px; color: var(--faint);
+    min-width: 16px; font-variant-numeric: tabular-nums;
+  }
+  .toc a:hover { background: var(--surface-2); color: var(--ink); }
+  .toc a.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+  .toc a.active .n { color: var(--accent); }
+  .toc .grp { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.11em; color: var(--faint); padding: 14px 10px 5px; font-weight: 700; }
+
+  .side-foot { margin-top: auto; padding: 14px 8px 4px; border-top: 1px solid var(--border); }
+  .side-foot a { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); text-decoration: none; font-size: 12.5px; }
+  .side-foot a:hover { color: var(--accent); }
+
+  /* ---------- Main ---------- */
+  main { min-width: 0; padding: 0 clamp(20px, 5vw, 80px); }
+  .content { max-width: 860px; margin: 0 auto; padding-bottom: 120px; }
+
+  section { padding-top: 64px; margin-top: -20px; }
+  section:first-of-type { padding-top: 0; margin-top: 0; }
+
+  h1, h2, h3 { letter-spacing: -0.025em; text-wrap: balance; line-height: 1.12; margin: 0; }
+  h2 { font-size: clamp(1.5rem, 3.2vw, 2rem); font-weight: 780; margin-bottom: 6px; }
+  h3 { font-size: 1.16rem; font-weight: 680; margin: 30px 0 8px; letter-spacing: -0.015em; }
+  p { margin: 0 0 14px; max-width: var(--measure); color: var(--ink-soft); }
+  ul, ol { max-width: var(--measure); color: var(--ink-soft); padding-left: 22px; margin: 0 0 16px; }
+  li { margin: 6px 0; }
+  li::marker { color: var(--faint); }
+  strong { color: var(--ink); font-weight: 660; }
+  a.link { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-line); }
+  a.link:hover { border-bottom-color: var(--accent); }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.13em;
+    color: var(--accent); font-weight: 700; margin-bottom: 14px;
+  }
+  .eyebrow::before { content: ""; width: 22px; height: 1.5px; background: var(--accent-line); display: inline-block; }
+  .kicker { font-family: var(--mono); font-size: 12px; color: var(--warm); letter-spacing: 0.02em; margin-bottom: 10px; text-transform: uppercase; font-weight: 600; }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: clamp(40px, 7vw, 84px) 0 34px; }
+  .hero h1 { font-size: clamp(2.3rem, 6.4vw, 4rem); font-weight: 820; letter-spacing: -0.035em; margin-bottom: 20px; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero .lede { font-size: clamp(1.05rem, 2.2vw, 1.3rem); color: var(--ink-soft); max-width: 60ch; line-height: 1.5; margin-bottom: 26px; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 34px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 11px 18px; border-radius: 11px; text-decoration: none;
+    font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em;
+    border: 1px solid transparent; cursor: pointer; transition: transform .12s ease, background .15s ease, border-color .15s ease;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); box-shadow: var(--shadow-sm); }
+  .btn.primary:hover { background: var(--accent-press); }
+  .btn.ghost { background: var(--surface); color: var(--ink); border-color: var(--border-strong); }
+  .btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .btn svg { width: 16px; height: 16px; }
+
+  /* migration motif */
+  .motif { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding: 18px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); max-width: 560px; }
+  .app-chip { display: flex; align-items: center; gap: 10px; }
+  .app-chip .logo { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; font-weight: 800; font-size: 14px; flex: none; }
+  .app-chip.linear .logo { background: var(--warm-soft); color: var(--warm); border: 1px solid var(--warm-line); }
+  .app-chip.huly .logo { background: linear-gradient(150deg, var(--accent), var(--accent-press)); color: var(--accent-ink); }
+  .app-chip b { font-size: 14.5px; letter-spacing: -0.01em; }
+  .app-chip span { font-size: 11.5px; color: var(--muted); display: block; }
+  .motif .arrow { color: var(--faint); flex: none; }
+  .motif .arrow svg { width: 26px; height: 18px; }
+
+  /* facts row */
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-top: 30px; }
+  .facts .f { background: var(--surface); padding: 16px 18px; }
+  .facts .f b { display: block; font-size: 1.5rem; font-weight: 780; letter-spacing: -0.03em; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .facts .f span { font-size: 12.5px; color: var(--muted); }
+
+  /* ---------- Cards / callouts ---------- */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 24px; box-shadow: var(--shadow-sm); margin: 18px 0; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 18px 0; }
+  .mini { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 18px; }
+  .mini h4 { margin: 0 0 6px; font-size: 14.5px; letter-spacing: -0.01em; display: flex; align-items: center; gap: 8px; }
+  .mini p { font-size: 14px; margin: 0; color: var(--muted); }
+  .mini .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+
+  .callout { display: flex; gap: 14px; border-radius: var(--radius); padding: 16px 18px; margin: 18px 0; border: 1px solid var(--border); background: var(--surface-2); max-width: var(--measure); }
+  .callout .ic { flex: none; width: 26px; height: 26px; border-radius: 7px; display: grid; place-items: center; font-size: 15px; }
+  .callout p { margin: 0; font-size: 14.5px; }
+  .callout.tip { border-color: var(--warm-line); background: var(--warm-soft); }
+  .callout.tip .ic { background: var(--warm); color: #fff; }
+  .callout.note { border-color: var(--accent-line); background: var(--accent-soft); }
+  .callout.note .ic { background: var(--accent); color: var(--accent-ink); }
+  .callout.warn { border-color: var(--red-soft); background: var(--red-soft); }
+  .callout.warn .ic { background: var(--red); color: #fff; }
+  .callout b { color: var(--ink); }
+
+  /* ---------- Steps ---------- */
+  ol.steps { list-style: none; padding: 0; counter-reset: st; max-width: var(--measure); }
+  ol.steps > li { position: relative; padding: 2px 0 18px 46px; margin: 0; }
+  ol.steps > li::before {
+    counter-increment: st; content: counter(st);
+    position: absolute; left: 0; top: 0;
+    width: 30px; height: 30px; border-radius: 8px;
+    background: var(--accent-soft); color: var(--accent);
+    border: 1px solid var(--accent-line);
+    display: grid; place-items: center; font-family: var(--mono); font-weight: 700; font-size: 13px;
+  }
+  ol.steps > li::after { content: ""; position: absolute; left: 14.5px; top: 34px; bottom: 4px; width: 1.5px; background: var(--border); }
+  ol.steps > li:last-child::after { display: none; }
+  ol.steps > li b.st-t { display: block; color: var(--ink); font-weight: 640; margin-bottom: 2px; letter-spacing: -0.01em; }
+
+  /* ---------- kbd / pills / tokens ---------- */
+  kbd {
+    font-family: var(--mono); font-size: 12px; line-height: 1;
+    padding: 3px 6px 4px; border-radius: 6px;
+    background: var(--surface); border: 1px solid var(--border-strong);
+    box-shadow: 0 1.5px 0 var(--border-strong); color: var(--ink);
+    white-space: nowrap;
+  }
+  code.inline { font-family: var(--mono); font-size: 0.85em; background: var(--grey-soft); padding: 2px 6px; border-radius: 5px; color: var(--ink); }
+  .pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px; font-family: var(--mono); letter-spacing: 0.01em; white-space: nowrap; }
+  .pill .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+  .pill.backlog { background: var(--grey-soft); color: var(--muted); }
+  .pill.backlog .dot { background: var(--faint); }
+  .pill.todo { background: var(--blue-soft); color: var(--blue); }
+  .pill.todo .dot { background: var(--blue); }
+  .pill.prog { background: var(--amber-soft); color: var(--amber); }
+  .pill.prog .dot { background: var(--amber); }
+  .pill.done { background: var(--good-soft); color: var(--good); }
+  .pill.done .dot { background: var(--good); }
+  .pill.cancel { background: var(--grey-soft); color: var(--faint); text-decoration: line-through; }
+  .pill.cancel .dot { background: var(--faint); }
+  .pill.urgent { background: var(--red-soft); color: var(--red); }
+  .pill.urgent .dot { background: var(--red); }
+
+  /* ---------- Faux issue rows (teaching visual) ---------- */
+  .tracker { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface); box-shadow: var(--shadow-sm); margin: 18px 0; max-width: var(--measure); }
+  .tracker .tr-head { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: var(--surface-2); border-bottom: 1px solid var(--border); font-size: 12.5px; color: var(--muted); font-weight: 600; }
+  .tracker .tr-head .cnt { margin-left: auto; font-family: var(--mono); font-size: 11.5px; color: var(--faint); }
+  .row { display: flex; align-items: center; gap: 12px; padding: 11px 16px; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .row:last-child { border-bottom: none; }
+  .row:hover { background: var(--surface-2); }
+  .row .prio { width: 14px; flex: none; display: grid; place-items: center; }
+  .row .prio i { display: block; width: 10px; height: 10px; border-radius: 3px; }
+  .row .id { font-family: var(--mono); font-size: 12px; color: var(--muted); flex: none; min-width: 62px; }
+  .row .ttl { color: var(--ink); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .row .meta { margin-left: auto; display: flex; align-items: center; gap: 10px; flex: none; }
+  .ava { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 10.5px; font-weight: 700; color: #fff; flex: none; letter-spacing: 0; }
+
+  /* ---------- Comparison table ---------- */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); margin: 20px 0; box-shadow: var(--shadow-sm); }
+  table { border-collapse: collapse; width: 100%; min-width: 560px; background: var(--surface); font-size: 14px; }
+  thead th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); font-weight: 700; padding: 12px 16px; background: var(--surface-2); border-bottom: 1px solid var(--border-strong); }
+  tbody td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--ink-soft); }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody td:first-child { color: var(--warm); font-weight: 600; white-space: nowrap; }
+  tbody td:nth-child(2) { color: var(--ink); font-weight: 600; white-space: nowrap; }
+  .arrow-cell { color: var(--faint); text-align: center; width: 30px; }
+
+  /* ---------- FAQ ---------- */
+  details.faq { border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); margin: 10px 0; overflow: hidden; }
+  details.faq summary { cursor: pointer; padding: 15px 18px; font-weight: 600; font-size: 15px; list-style: none; display: flex; align-items: center; gap: 12px; letter-spacing: -0.01em; }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary .chev { margin-left: auto; color: var(--faint); transition: transform .18s ease; flex: none; }
+  details.faq[open] summary .chev { transform: rotate(90deg); color: var(--accent); }
+  details.faq .body { padding: 0 18px 16px 48px; }
+  details.faq .body p { margin: 0; font-size: 14.5px; }
+  details.faq summary .q { width: 22px; height: 22px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-family: var(--mono); font-size: 12px; font-weight: 700; flex: none; }
+
+  /* ---------- Checklist ---------- */
+  .checklist { list-style: none; padding: 0; max-width: var(--measure); counter-reset: ck; }
+  .checklist li { display: flex; gap: 13px; align-items: flex-start; padding: 13px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); margin: 8px 0; }
+  .checklist li .box { width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--border-strong); flex: none; display: grid; place-items: center; color: var(--accent); margin-top: 1px; }
+  .checklist li b { display: block; color: var(--ink); letter-spacing: -0.01em; }
+  .checklist li span { font-size: 14px; color: var(--muted); }
+
+  /* ---------- Footer ---------- */
+  .foot { border-top: 1px solid var(--border); margin-top: 60px; padding: 34px 0 10px; color: var(--muted); font-size: 13.5px; }
+  .foot a { color: var(--accent); text-decoration: none; }
+  .foot a:hover { text-decoration: underline; }
+  .foot .cols { display: flex; flex-wrap: wrap; gap: 30px 60px; margin-bottom: 24px; }
+  .foot .cols b { color: var(--ink); display: block; margin-bottom: 8px; font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .foot .cols ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 5px; }
+
+  /* ---------- Topbar (mobile) ---------- */
+  .topbar { display: none; position: sticky; top: 0; z-index: 40; align-items: center; gap: 12px; padding: 11px 16px; background: color-mix(in srgb, var(--surface) 86%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .topbar .mark { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(150deg, var(--accent), var(--accent-press)); display: grid; place-items: center; color: var(--accent-ink); font-weight: 800; font-size: 14px; }
+  .topbar b { font-size: 14px; letter-spacing: -0.01em; }
+  .icon-btn { margin-left: auto; width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--surface); display: grid; place-items: center; cursor: pointer; color: var(--ink); }
+  .icon-btn:active { transform: translateY(1px); }
+  .theme-btn { position: fixed; right: 20px; bottom: 20px; z-index: 45; width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--surface); box-shadow: var(--shadow); display: grid; place-items: center; cursor: pointer; color: var(--ink); }
+  .theme-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .theme-btn .moon { display: none; }
+  :root[data-theme="dark"] .theme-btn .moon { display: block; }
+  :root[data-theme="dark"] .theme-btn .sun { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .theme-btn .moon { display: block; }
+    :root:not([data-theme="light"]) .theme-btn .sun { display: none; }
+  }
+
+  .scrim { display: none; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 940px) {
+    .shell { grid-template-columns: 1fr; }
+    .topbar { display: flex; }
+    .sidebar {
+      position: fixed; top: 0; left: 0; z-index: 60;
+      width: 300px; max-width: 86vw; height: 100dvh;
+      transform: translateX(-102%); transition: transform .22s ease;
+      box-shadow: var(--shadow);
+    }
+    :root[data-nav="open"] .sidebar { transform: translateX(0); }
+    :root[data-nav="open"] .scrim { display: block; position: fixed; inset: 0; z-index: 55; background: rgba(0,0,0,0.4); }
+    main { padding: 0 clamp(18px, 5vw, 40px); }
+    .content { padding-top: 8px; }
+    body { font-size: 16px; }
+  }
+  @media (max-width: 520px) {
+    .hero { padding-top: 26px; }
+    .foot .cols { gap: 22px 34px; }
+  }
+</style>
+
+<a class="scrim" data-close-nav aria-hidden="true"></a>
+
+<!-- Mobile topbar -->
+<header class="topbar">
+  <div class="mark">H</div>
+  <b>Huly · kdnagency</b>
+  <button class="icon-btn" data-toggle-nav aria-label="Меню">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  </button>
+</header>
+
+<div class="shell">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="mark">H</div>
+      <div class="who"><b>Huly Посібник</b><span>kdnagency</span></div>
+    </div>
+    <nav class="toc" id="toc">
+      <a href="#start" class="active"><span class="n">00</span> Огляд</a>
+      <a href="#why"><span class="n">01</span> Навіщо Huly замість Linear</a>
+      <a href="#glossary"><span class="n">02</span> Словник: Linear → Huly</a>
+      <a href="#login"><span class="n">03</span> Перший вхід</a>
+      <a href="#structure"><span class="n">04</span> Як усе влаштовано</a>
+      <div class="grp">Туторіал крок за кроком</div>
+      <a href="#projects"><span class="n">05</span> Створюємо проєкт</a>
+      <a href="#issues"><span class="n">06</span> Створюємо задачі</a>
+      <a href="#workflow"><span class="n">07</span> Статуси й процес</a>
+      <a href="#components"><span class="n">08</span> Компоненти та Milestones</a>
+      <a href="#planner"><span class="n">09</span> Планер і Time</a>
+      <a href="#filters"><span class="n">10</span> Мітки, пріоритети, фільтри</a>
+      <div class="grp">Довідка</div>
+      <a href="#modules"><span class="n">11</span> Інші модулі</a>
+      <a href="#shortcuts"><span class="n">12</span> Швидкі прийоми</a>
+      <a href="#faq"><span class="n">13</span> Часті питання</a>
+      <a href="#checklist"><span class="n">14</span> Чекліст переходу</a>
+    </nav>
+    <div class="side-foot">
+      <a href="https://huly.kdnx.cloud/workbench/kdnagency/time" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
+        Відкрити наш Huly
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main>
+    <div class="content">
+
+      <!-- HERO / OVERVIEW -->
+      <section id="start">
+        <div class="hero">
+          <span class="eyebrow">Внутрішній посібник команди</span>
+          <h1>Переходимо на <em>Huly</em>.<br>Спокійно і зрозуміло.</h1>
+          <p class="lede">Ми перенесли роботу команди з Linear у власний Huly. Цей посібник — щоб кожен за 20 хвилин зрозумів, що де знаходиться, і почав працювати без стресу. Усе українською, з прикладами.</p>
+          <div class="hero-cta">
+            <a class="btn primary" href="https://huly.kdnx.cloud/workbench/kdnagency/time" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              Відкрити наш Huly
+            </a>
+            <a class="btn ghost" href="#login">З чого почати →</a>
+          </div>
+
+          <div class="motif" role="img" aria-label="Перехід з Linear на Huly">
+            <div class="app-chip linear">
+              <div class="logo">L</div>
+              <div><b>Linear</b><span>звідки йдемо</span></div>
+            </div>
+            <div class="arrow">
+              <svg viewBox="0 0 26 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1 9h22M17 3l6 6-6 6"/></svg>
+            </div>
+            <div class="app-chip huly">
+              <div class="logo">H</div>
+              <div><b>Huly</b><span>наш новий дім</span></div>
+            </div>
+          </div>
+
+          <div class="facts">
+            <div class="f"><b>1</b><span>простір для всієї команди</span></div>
+            <div class="f"><b>self-hosted</b><span>на нашому сервері</span></div>
+            <div class="f"><b>~20 хв</b><span>щоб освоїтись</span></div>
+            <div class="f"><b>uk</b><span>цей гайд українською</span></div>
+          </div>
+        </div>
+
+        <div class="callout note">
+          <div class="ic">i</div>
+          <p><b>Наша адреса:</b> <a class="link" href="https://huly.kdnx.cloud/workbench/kdnagency/time" target="_blank" rel="noopener">huly.kdnx.cloud</a>. Логін і пароль видає адміністратор робочого простору. Huly працює у браузері, а також має застосунки для macOS, Windows, Linux і мобільні застосунки.</p>
+        </div>
+      </section>
+
+      <!-- WHY -->
+      <section id="why">
+        <span class="kicker">01 — Контекст</span>
+        <h2>Навіщо Huly замість Linear</h2>
+        <p>Linear чудовий, але робив лише одну річ — трекінг задач. Усе інше (документи, чат, дзвінки, планування дня) жило в окремих сервісах. <strong>Huly збирає це в одному місці</strong> і, головне, ми хостимо його самі — дані залишаються на нашому сервері.</p>
+        <div class="grid-2">
+          <div class="mini"><h4><span class="dot" style="background:var(--accent)"></span> Усе в одному</h4><p>Трекер задач, документи, чат, дошки, диск, планер дня і навіть віртуальний офіс — без «зоопарку» вкладок.</p></div>
+          <div class="mini"><h4><span class="dot" style="background:var(--good)"></span> Наші дані — наші</h4><p>Self-hosted: інстанс на нашому сервері, повний контроль над доступом і бекапами.</p></div>
+          <div class="mini"><h4><span class="dot" style="background:var(--warm)"></span> Знайомі принципи</h4><p>Задачі, статуси, пріоритети, підзадачі, мітки — усе як у Linear. Перенавчатися майже не доведеться.</p></div>
+          <div class="mini"><h4><span class="dot" style="background:var(--blue)"></span> Open source</h4><p>Відкритий код, активна розробка, інтеграції з GitHub, Google Calendar, Gmail, Telegram.</p></div>
+        </div>
+        <p>Далі — головне, що варто знати кожному в команді. Якщо ви поспішаєте: розділи <a class="link" href="#glossary">02</a>, <a class="link" href="#issues">06</a> і <a class="link" href="#planner">09</a> — це мінімум для щоденної роботи.</p>
+      </section>
+
+      <!-- GLOSSARY -->
+      <section id="glossary">
+        <span class="kicker">02 — Переклад понять</span>
+        <h2>Словник: Linear → Huly</h2>
+        <p>Майже все, до чого ви звикли в Linear, є в Huly — просто інколи називається інакше. Ось шпаргалка відповідностей.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>У Linear</th><th class="arrow-cell"></th><th>У Huly</th><th>Що знати</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Workspace</td><td class="arrow-cell">→</td><td>Workspace</td><td>Наш робочий простір <code class="inline">kdnagency</code> — верхній рівень усього.</td></tr>
+              <tr><td>Team</td><td class="arrow-cell">→</td><td>Проєкт (Project)</td><td>Простір, що містить задачі. У Huly «команда» — це радше проєкт у Трекері.</td></tr>
+              <tr><td>Issue</td><td class="arrow-cell">→</td><td>Задача (Issue)</td><td>Той самий об'єкт: назва, опис, статус, виконавець.</td></tr>
+              <tr><td>Sub-issue</td><td class="arrow-cell">→</td><td>Підзадача</td><td>Розбивайте велике на менше — так само вкладено.</td></tr>
+              <tr><td>Project</td><td class="arrow-cell">→</td><td>Milestone / Компонент</td><td>Ціль з дедлайном → Milestone. Напрям/зона → Компонент.</td></tr>
+              <tr><td>Cycle</td><td class="arrow-cell">→</td><td>Milestone</td><td>Спринт з датами моделюється через Milestone.</td></tr>
+              <tr><td>Status / Workflow</td><td class="arrow-cell">→</td><td>Статуси</td><td>Ті самі категорії: Backlog, Todo, In Progress, Done, Cancelled.</td></tr>
+              <tr><td>Priority</td><td class="arrow-cell">→</td><td>Пріоритет</td><td>Ідентично: Urgent, High, Medium, Low, No priority.</td></tr>
+              <tr><td>Labels</td><td class="arrow-cell">→</td><td>Мітки (Labels)</td><td>Кольорові теги для фільтрації.</td></tr>
+              <tr><td>Assignee</td><td class="arrow-cell">→</td><td>Виконавець</td><td>Хто відповідає за задачу.</td></tr>
+              <tr><td>Estimate</td><td class="arrow-cell">→</td><td>Оцінка (Estimation)</td><td>Прогноз трудомісткості.</td></tr>
+              <tr><td>Triage</td><td class="arrow-cell">→</td><td>Inbox</td><td>Куди прилітають сповіщення й нове на розбір.</td></tr>
+              <tr><td>My Issues</td><td class="arrow-cell">→</td><td>Planner</td><td>Ваш особистий план дня та задачі на вас.</td></tr>
+              <tr><td>Views / Filters</td><td class="arrow-cell">→</td><td>Фільтри та групування</td><td>Групуйте за статусом, виконавцем, пріоритетом тощо.</td></tr>
+              <tr><td>Linear/Notion Docs</td><td class="arrow-cell">→</td><td>Documents</td><td>Спільні документи у Teamspaces.</td></tr>
+              <tr><td>Slack</td><td class="arrow-cell">→</td><td>Chat + Office</td><td>Чат і віртуальний офіс з дзвінками — всередині Huly.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout tip"><div class="ic">★</div><p><b>Головне спрощення:</b> статуси й пріоритети в Huly точно такі ж, як у Linear. Якщо ви вміли працювати там — тут вам знадобиться хвилина.</p></div>
+      </section>
+
+      <!-- LOGIN -->
+      <section id="login">
+        <span class="kicker">03 — Старт</span>
+        <h2>Перший вхід</h2>
+        <ol class="steps">
+          <li><b class="st-t">Відкрийте наш інстанс</b>Перейдіть на <a class="link" href="https://huly.kdnx.cloud/workbench/kdnagency/time" target="_blank" rel="noopener">huly.kdnx.cloud</a>. Це наш власний сервер — не плутайте з публічним huly.app.</li>
+          <li><b class="st-t">Увійдіть за запрошенням</b>Адміністратор надсилає запрошення або видає логін/пароль. Якщо доступу немає — напишіть адміну робочого простору.</li>
+          <li><b class="st-t">Заповніть профіль</b>Додайте ім'я, прізвище та аватар — колегам буде легше вас упізнавати в задачах і чаті.</li>
+          <li><b class="st-t">Оберіть робочий простір <code class="inline">kdnagency</code></b>Тут живе вся робота команди. Якщо ви в кількох просторах — перемикайтесь іконкою вгорі зліва.</li>
+          <li><b class="st-t">(Опційно) Поставте застосунок</b>Є десктопні застосунки для macOS / Windows / Linux і мобільні. Зручніше, ніж вкладка в браузері.</li>
+        </ol>
+        <div class="callout note"><div class="ic">i</div><p>Посилання одразу відкриває розділ <b>Time</b> (планер) — це ваша «ранкова сторінка». Про неї детально в розділі <a class="link" href="#planner">09</a>.</p></div>
+      </section>
+
+      <!-- STRUCTURE -->
+      <section id="structure">
+        <span class="kicker">04 — Ментальна модель</span>
+        <h2>Як усе влаштовано</h2>
+        <p>Щоб не загубитися, тримайте в голові просту трирівневу структуру. Все в Huly вкладається саме так:</p>
+        <ol class="steps">
+          <li><b class="st-t">Workspace — простір</b>Верхній рівень, окреме середовище. У нас це <code class="inline">kdnagency</code>. Один акаунт може мати кілька просторів, але робота команди — тут.</li>
+          <li><b class="st-t">Space — контейнер із задачами</b>Усередині простору. Називається по-різному залежно від модуля: <strong>Project</strong> у Трекері, <strong>Teamspace</strong> у Документах, <strong>Drive</strong> на диску. У кожного — свої учасники, ролі й приватність.</li>
+          <li><b class="st-t">Object — конкретний об'єкт</b>Те, з чим ви працюєте щодня: задача, підзадача, milestone, документ, файл. Живе всередині свого space.</li>
+        </ol>
+        <h3>Навігація інтерфейсу</h3>
+        <div class="grid-2">
+          <div class="mini"><h4>Ліва панель (модулі)</h4><p>Inbox, Planner, Office, Contacts, Chat, Tracker, Documents, Team, Drive та інші. Видимість модулів налаштовується.</p></div>
+          <div class="mini"><h4>Контекстна панель</h4><p>Усередині модуля — своє меню (проєкти, milestone-и). Відкривається іконкою «≡» біля іконки простору.</p></div>
+          <div class="mini"><h4>Центр — вкладки</h4><p>Кілька вкладок одночасно. Тисніть <kbd>+</kbd>, щоб відкрити нову, не втрачаючи місця.</p></div>
+          <div class="mini"><h4>Права панель</h4><p>Швидкий доступ до планера й офісу; можна закріпити чат, щоб він був поруч.</p></div>
+        </div>
+        <div class="callout tip"><div class="ic">★</div><p><b>Трекер</b> (значок-галочка ✓ на лівій панелі) — це ваш колишній Linear. 90% роботи буде саме тут.</p></div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects">
+        <span class="kicker">05 — Туторіал</span>
+        <h2>Крок 1. Створюємо проєкт</h2>
+        <p>Проєкт — це простір, у якому живуть задачі (аналог «Team» у Linear). Наприклад: <em>Сайт клієнта</em>, <em>Внутрішні задачі</em>, <em>Маркетинг</em>.</p>
+        <div class="callout warn"><div class="ic">!</div><p>Створювати проєкти можуть лише <b>власники й maintainer-и</b> простору. Якщо кнопки немає — попросіть адміна створити проєкт або видати роль.</p></div>
+        <ol class="steps">
+          <li><b class="st-t">Відкрийте Трекер</b>Значок-галочка ✓ на лівій панелі.</li>
+          <li><b class="st-t">Розгорніть бічну панель</b>Іконка «≡» вгорі зліва, щоб бачити список проєктів.</li>
+          <li><b class="st-t">Додайте проєкт</b>Наведіть на «Your Projects» → натисніть <kbd>+</kbd>. Або: стрілочка біля <kbd>+ New issue</kbd> → <em>Create project</em>.</li>
+          <li><b class="st-t">Заповніть налаштування</b>Найважливіше — <strong>Identifier</strong>: коротка абревіатура для ID задач (напр. <code class="inline">WEB</code> → задачі <code class="inline">WEB-1</code>, <code class="inline">WEB-2</code>).</li>
+          <li><b class="st-t">Натисніть Create</b>Готово — проєкт з'явиться у списку.</li>
+        </ol>
+        <h3>Що можна налаштувати</h3>
+        <ul>
+          <li><strong>Project Type</strong> — за замовчуванням «Classic project».</li>
+          <li><strong>Title</strong> та <strong>Identifier</strong> — назва і префікс ID задач.</li>
+          <li><strong>Icon</strong> — колір або емодзі, щоб швидко впізнавати проєкт.</li>
+          <li><strong>Default Assignee</strong> / <strong>Default Status</strong> — з чим створюються нові задачі.</li>
+          <li><strong>Owners</strong>, <strong>Members</strong>, <strong>Privacy</strong> — хто має доступ і чи проєкт приватний.</li>
+          <li><strong>Auto Join</strong> — автоматично додавати нових учасників простору.</li>
+        </ul>
+      </section>
+
+      <!-- ISSUES -->
+      <section id="issues">
+        <span class="kicker">06 — Туторіал · головне</span>
+        <h2>Крок 2. Створюємо задачі</h2>
+        <p>Задача (Issue) — основна одиниця роботи. Ось як виглядає список задач у проєкті:</p>
+
+        <div class="tracker" aria-hidden="true">
+          <div class="tr-head"><span>WEB · Активні задачі</span><span class="cnt">4 issues</span></div>
+          <div class="row">
+            <div class="prio"><i style="background:var(--red)"></i></div>
+            <span class="id">WEB-142</span>
+            <span class="ttl">Виправити форму зворотного зв'язку на лендингу</span>
+            <div class="meta"><span class="pill prog"><span class="dot"></span>In Progress</span><span class="ava" style="background:#6a4cf0">ОК</span></div>
+          </div>
+          <div class="row">
+            <div class="prio"><i style="background:var(--amber)"></i></div>
+            <span class="id">WEB-138</span>
+            <span class="ttl">Оновити тексти на сторінці «Послуги»</span>
+            <div class="meta"><span class="pill todo"><span class="dot"></span>Todo</span><span class="ava" style="background:#1f9d63">МП</span></div>
+          </div>
+          <div class="row">
+            <div class="prio"><i style="background:var(--blue)"></i></div>
+            <span class="id">WEB-131</span>
+            <span class="ttl">Підключити аналітику та цілі</span>
+            <div class="meta"><span class="pill done"><span class="dot"></span>Done</span><span class="ava" style="background:#c9631a">ІД</span></div>
+          </div>
+          <div class="row">
+            <div class="prio"><i style="background:var(--faint)"></i></div>
+            <span class="id">WEB-129</span>
+            <span class="ttl">Ідея: додати темну тему на сайт</span>
+            <div class="meta"><span class="pill backlog"><span class="dot"></span>Backlog</span><span class="ava" style="background:#2f74d0">СВ</span></div>
+          </div>
+        </div>
+
+        <ol class="steps">
+          <li><b class="st-t">Натисніть <kbd>+ New Issue</kbd></b>Угорі бічної панелі Трекера.</li>
+          <li><b class="st-t">Впишіть назву</b>Коротко і по суті: «Виправити форму на лендингу», а не «форма».</li>
+          <li><b class="st-t">Додайте опис</b>Підтримує Markdown: заголовки, списки, код, посилання, вкладення.</li>
+          <li><b class="st-t">Виставте статус, пріоритет, виконавця</b>Мінімум — виконавець і статус. Решта опційна.</li>
+          <li><b class="st-t">Натисніть Create issue</b>Задача отримає свій ID (напр. <code class="inline">WEB-143</code>).</li>
+        </ol>
+
+        <h3>Поля задачі</h3>
+        <ul>
+          <li><strong>Статус</strong> — <span class="pill backlog"><span class="dot"></span>Backlog</span> <span class="pill todo"><span class="dot"></span>Todo</span> <span class="pill prog"><span class="dot"></span>In Progress</span> <span class="pill done"><span class="dot"></span>Done</span> <span class="pill cancel"><span class="dot"></span>Cancelled</span></li>
+          <li><strong>Пріоритет</strong> — <span class="pill urgent"><span class="dot"></span>Urgent</span>, High, Medium, Low, No priority.</li>
+          <li><strong>Виконавець</strong>, <strong>Мітки</strong>, <strong>Оцінка</strong>, <strong>Дедлайн</strong> — за потреби.</li>
+          <li><strong>Parent Issue</strong> — прив'язати як підзадачу до батьківської.</li>
+          <li><strong>Вкладення</strong> — файли, зображення, скріншоти.</li>
+        </ul>
+
+        <div class="callout tip"><div class="ic">★</div><p><b>Автоматика, якої не було в Linear:</b> якщо поставити задачі статус <span class="pill todo"><span class="dot"></span>Todo</span> і призначити виконавця, у його <b>Планері</b> автоматично з'явиться пункт на день. Менше ручного планування.</p></div>
+
+        <div class="callout note"><div class="ic">i</div><p>Почали створювати задачу й відволіклися? Huly збереже <b>чернетку</b> — кнопка стане <em>+ Resume draft</em>, і ви продовжите з того ж місця.</p></div>
+
+        <h3>Порада щодо розміру задач</h3>
+        <p>Тримайте задачі <strong>невеликими</strong> — одна задача = одна відповідальність. Велике розбивайте на <strong>підзадачі</strong>: так прогрес видно краще, і роботу легше ділити між людьми.</p>
+      </section>
+
+      <!-- WORKFLOW -->
+      <section id="workflow">
+        <span class="kicker">07 — Туторіал</span>
+        <h2>Крок 3. Статуси й робочий процес</h2>
+        <p>Статуси в Huly згруповані в ті самі категорії, що й у Linear. Рухайте задачу зліва направо в міру роботи:</p>
+        <div class="card">
+          <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px;">
+            <span class="pill backlog"><span class="dot"></span>Backlog</span><span style="color:var(--faint)">→</span>
+            <span class="pill todo"><span class="dot"></span>Todo</span><span style="color:var(--faint)">→</span>
+            <span class="pill prog"><span class="dot"></span>In Progress</span><span style="color:var(--faint)">→</span>
+            <span class="pill done"><span class="dot"></span>Done</span>
+            <span style="color:var(--faint); margin-left:6px;">або</span>
+            <span class="pill cancel"><span class="dot"></span>Cancelled</span>
+          </div>
+        </div>
+        <ul>
+          <li><span class="pill backlog"><span class="dot"></span>Backlog</span> — ідеї та задачі «колись потім», ще не в роботі.</li>
+          <li><span class="pill todo"><span class="dot"></span>Todo</span> — заплановано, готове взяти в роботу.</li>
+          <li><span class="pill prog"><span class="dot"></span>In Progress</span> — зараз виконується.</li>
+          <li><span class="pill done"><span class="dot"></span>Done</span> — завершено.</li>
+          <li><span class="pill cancel"><span class="dot"></span>Cancelled</span> — скасовано / не робимо.</li>
+        </ul>
+        <p>Кожен проєкт може мати власні статуси в межах цих категорій — налаштовується в параметрах проєкту. Групуйте дошку <strong>за статусом</strong>, щоб отримати звичний вигляд «канбан».</p>
+        <div class="callout tip"><div class="ic">★</div><p>Не забувайте <b>оновлювати статус</b> — це головне джерело прозорості для команди. По статусах одразу видно, хто чим зайнятий і що застрягло.</p></div>
+      </section>
+
+      <!-- COMPONENTS / MILESTONES -->
+      <section id="components">
+        <span class="kicker">08 — Туторіал</span>
+        <h2>Крок 4. Компоненти та Milestones</h2>
+        <p>Це два способи групувати задачі всередині проєкту. Не плутайте їх:</p>
+        <div class="grid-2">
+          <div class="mini">
+            <h4><span class="dot" style="background:var(--blue)"></span> Компонент — за <em>зоною</em></h4>
+            <p>Категорія за темою чи напрямом: «Фронтенд», «Дизайн», «SEO». Не має дат. Має опис і вкладення. Задача може належати компоненту.</p>
+          </div>
+          <div class="mini">
+            <h4><span class="dot" style="background:var(--good)"></span> Milestone — за <em>ціллю в часі</em></h4>
+            <p>Ціль із дедлайном — аналог Cycle/Project у Linear. Проходить стадії <span class="pill todo" style="font-size:11px"><span class="dot"></span>Planned</span> → <span class="pill prog" style="font-size:11px"><span class="dot"></span>In Progress</span> → <span class="pill done" style="font-size:11px"><span class="dot"></span>Completed</span>.</p>
+          </div>
+        </div>
+        <h3>Як створити Milestone</h3>
+        <ol class="steps">
+          <li><b class="st-t">Відкрийте Трекер → ваш проєкт</b>У бічній панелі розкрийте проєкт.</li>
+          <li><b class="st-t">Виберіть «Milestones»</b>Пункт під проєктом.</li>
+          <li><b class="st-t">Натисніть <kbd>+ Milestone</kbd></b>Кнопка вгорі праворуч. Задайте назву й дату.</li>
+          <li><b class="st-t">Прив'язуйте задачі</b>У задачі вкажіть відповідний milestone — і бачите прогрес до цілі.</li>
+        </ol>
+        <div class="callout note"><div class="ic">i</div><p><b>Проста логіка:</b> «над чим працюємо взагалі» = компонент, «до якого дедлайну» = milestone. Задача може мати і те, і те.</p></div>
+      </section>
+
+      <!-- PLANNER / TIME -->
+      <section id="planner">
+        <span class="kicker">09 — Щоденна робота</span>
+        <h2>Крок 5. Планер і Time</h2>
+        <p>Це та сторінка, що відкривається за нашим посиланням (<code class="inline">/time</code>). Вважайте її своєю <strong>ранковою панеллю</strong> — заміна лінеарівського «My Issues», але потужніша.</p>
+        <div class="grid-2">
+          <div class="mini"><h4>Задачі на вас</h4><p>Усе, що на вас призначено з усіх проєктів — в одному списку, без перемикань.</p></div>
+          <div class="mini"><h4>План дня</h4><p>Розкладайте задачі та справи по слотах дня. Задачі зі статусом Todo прилітають сюди автоматично.</p></div>
+          <div class="mini"><h4>Action items</h4><p>Особисті дрібні справи, яких немає сенсу заводити як повну задачу.</p></div>
+          <div class="mini"><h4>Календар</h4><p>З інтеграцією Google Calendar видно зустрічі поряд із задачами.</p></div>
+        </div>
+        <div class="callout tip"><div class="ic">★</div><p><b>Ритуал команди:</b> починайте день з Planner — перегляньте задачі на сьогодні, оновіть статуси, розкладіть план. 2 хвилини вранці економлять годину плутанини вдень.</p></div>
+      </section>
+
+      <!-- FILTERS -->
+      <section id="filters">
+        <span class="kicker">10 — Наведення ладу</span>
+        <h2>Мітки, пріоритети, фільтри</h2>
+        <p>Коли задач стає багато, рятують три інструменти:</p>
+        <h3>Мітки (Labels)</h3>
+        <p>Кольорові теги, що перетинають проєкти: <code class="inline">bug</code>, <code class="inline">клієнт-X</code>, <code class="inline">терміново</code>, <code class="inline">блокер</code>. Одна задача може мати кілька міток. Домовтесь у команді про <strong>спільний набір міток</strong>, щоб не було 5 варіантів «баг».</p>
+        <h3>Пріоритети</h3>
+        <p>Використовуйте чесно: <span class="pill urgent"><span class="dot"></span>Urgent</span> — «горить прямо зараз». Якщо все Urgent — нічого не Urgent.</p>
+        <h3>Фільтри та групування</h3>
+        <ul>
+          <li><strong>Групування</strong> — за статусом (канбан), виконавцем, пріоритетом, компонентом, milestone.</li>
+          <li><strong>Фільтри</strong> — покажіть лише свої задачі, лише In Progress, лише з певною міткою.</li>
+          <li><strong>Сортування</strong> — за пріоритетом, датою оновлення, дедлайном.</li>
+        </ul>
+        <div class="callout note"><div class="ic">i</div><p>Типовий робочий вигляд: фільтр «виконавець = я» + групування за статусом. Отримуєте персональну канбан-дошку.</p></div>
+      </section>
+
+      <!-- MODULES -->
+      <section id="modules">
+        <span class="kicker">11 — Огляд</span>
+        <h2>Інші модулі, які варто знати</h2>
+        <p>Трекера достатньо для старту, але Huly вміє більше. Коротко — що де:</p>
+        <div class="grid-2">
+          <div class="mini"><h4><span class="dot" style="background:var(--accent)"></span> Documents</h4><p>Спільні документи, бази знань, нотатки. Підтримує діаграми Mermaid і дошки. Замінює Notion/Google Docs для внутрішнього.</p></div>
+          <div class="mini"><h4><span class="dot" style="background:var(--good)"></span> Chat</h4><p>Командне спілкування з тредами, згадками й сповіщеннями. Обговорення прямо в контексті задач.</p></div>
+          <div class="mini"><h4><span class="dot" style="background:var(--blue)"></span> Office / Virtual Office</h4><p>Віртуальний офіс: аудіо/відео дзвінки, кімнати, жива транскрипція. Заміна Slack-huddles.</p></div>
+          <div class="mini"><h4><span class="dot" style="background:var(--warm)"></span> Drive</h4><p>Файлове сховище команди — документи, макети, ассети в одному місці.</p></div>
+          <div class="mini"><h4><span class="dot" style="background:var(--amber)"></span> Inbox</h4><p>Усі сповіщення й згадки — розбирайте, як пошту. Аналог Triage.</p></div>
+          <div class="mini"><h4><span class="dot" style="background:var(--red)"></span> Team / HR</h4><p>Планування команди, відпустки, контакти колег.</p></div>
+        </div>
+        <div class="callout tip"><div class="ic">★</div><p>Не намагайтесь освоїти все одразу. Спершу — Трекер і Планер. Documents і Chat підключайте, коли команда звикне до задач.</p></div>
+      </section>
+
+      <!-- SHORTCUTS / TIPS -->
+      <section id="shortcuts">
+        <span class="kicker">12 — Ефективність</span>
+        <h2>Швидкі прийоми</h2>
+        <p>Huly, як і Linear, любить клавіатуру й швидкі дії. Точні комбінації підказує сам інтерфейс — <strong>наведіть курсор на дію</strong>, і Huly покаже клавішу поруч. Кілька звичок, що заощаджують час:</p>
+        <div class="grid-2">
+          <div class="mini"><h4>Кілька вкладок</h4><p>Тисніть <kbd>+</kbd> у центрі, щоб відкрити задачу в новій вкладці, не втрачаючи список.</p></div>
+          <div class="mini"><h4>Чернетки</h4><p>Не бійтеся почати задачу й повернутися — <em>Resume draft</em> збереже введене.</p></div>
+          <div class="mini"><h4>Markdown в описі</h4><p><code class="inline">#</code> заголовок, <code class="inline">- </code> список, <code class="inline">```</code> код, посилання — усе працює під час набору.</p></div>
+          <div class="mini"><h4>Підзадачі замість гігантів</h4><p>Велику задачу одразу дробіть на підзадачі — прогрес рахується автоматично.</p></div>
+          <div class="mini"><h4>Групуйте дошку</h4><p>Перемикайте групування (статус / виконавець / пріоритет) під конкретне завдання.</p></div>
+          <div class="mini"><h4>Наведення = підказка</h4><p>Іконки без підписів? Наведіть — Huly покаже назву й гарячу клавішу.</p></div>
+        </div>
+        <div class="callout note"><div class="ic">i</div><p>Набір гарячих клавіш може відрізнятися між версіями Huly. Тому надійніше орієнтуватися на підказки інтерфейсу, ніж завчати комбінації напам'ять.</p></div>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq">
+        <span class="kicker">13 — Питання</span>
+        <h2>Часті питання</h2>
+
+        <details class="faq" open>
+          <summary><span class="q">?</span> Де мої задачі? <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+          <div class="body"><p>Відкрийте <strong>Planner</strong> (наше посилання веде саме туди) або в Трекері поставте фільтр «виконавець = я». Побачите все, що на вас, з усіх проєктів одразу.</p></div>
+        </details>
+
+        <details class="faq">
+          <summary><span class="q">?</span> Хто може створювати проєкти? <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+          <div class="body"><p>Лише <strong>власники й maintainer-и</strong> простору. Якщо потрібен новий проєкт — попросіть адміна робочого простору <code class="inline">kdnagency</code>.</p></div>
+        </details>
+
+        <details class="faq">
+          <summary><span class="q">?</span> Чи можна перенести задачі з Linear? <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+          <div class="body"><p>Активні задачі найпростіше перенести вручну — їх зазвичай небагато. Для масового переносу є API та інструменти імпорту; це робить адміністратор. Не переносьте архів «про всяк випадок» — беріть лише те, що дійсно в роботі.</p></div>
+        </details>
+
+        <details class="faq">
+          <summary><span class="q">?</span> Я випадково закрив задачу під час створення — все пропало? <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+          <div class="body"><p>Ні. Huly зберігає чернетку — кнопка створення стане <em>+ Resume draft</em>, натисніть і продовжуйте.</p></div>
+        </details>
+
+        <details class="faq">
+          <summary><span class="q">?</span> Компонент чи Milestone — що обрати? <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+          <div class="body"><p>Є дедлайн / це «спринт» чи ціль — <strong>Milestone</strong>. Це постійний напрям чи зона (фронтенд, дизайн) — <strong>Компонент</strong>. Можна використати обидва разом.</p></div>
+        </details>
+
+        <details class="faq">
+          <summary><span class="q">?</span> Дані в безпеці? <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+          <div class="body"><p>Так — інстанс self-hosted на нашому сервері. Дані не йдуть у чужу хмару, доступ і бекапи контролює наш адміністратор.</p></div>
+        </details>
+
+        <details class="faq">
+          <summary><span class="q">?</span> Застряг — до кого звертатися? <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></summary>
+          <div class="body"><p>Спершу — офіційна документація <a class="link" href="https://docs.huly.io/getting-started/introduction-huly/" target="_blank" rel="noopener">docs.huly.io</a>. Якщо це про наш простір, доступи чи проєкти — пишіть адміністратору <code class="inline">kdnagency</code> у Chat.</p></div>
+        </details>
+      </section>
+
+      <!-- CHECKLIST -->
+      <section id="checklist">
+        <span class="kicker">14 — Дій зараз</span>
+        <h2>Чекліст переходу</h2>
+        <p>Пройдіть ці кроки в перший день — і ви повністю в грі:</p>
+        <ul class="checklist">
+          <li><span class="box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Увійти в наш Huly</b><span>huly.kdnx.cloud, простір kdnagency, заповнити профіль і аватар.</span></div></li>
+          <li><span class="box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Знайти свій проєкт у Трекері</b><span>Відкрити ✓ Трекер, розгорнути бічну панель, глянути свої задачі.</span></div></li>
+          <li><span class="box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Створити тестову задачу</b><span>Пройти шлях +New Issue → назва → виконавець → статус → Create.</span></div></li>
+          <li><span class="box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Відкрити Planner</b><span>Переглянути задачі на день, спробувати розкласти план.</span></div></li>
+          <li><span class="box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Написати «привіт» у Chat</b><span>Переконатися, що сповіщення працюють, і познайомитися з інтерфейсом.</span></div></li>
+          <li><span class="box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg></span><div><b>Поставити застосунок (опційно)</b><span>Десктоп або мобільний — щоб Huly був завжди під рукою.</span></div></li>
+        </ul>
+        <div class="callout tip"><div class="ic">★</div><p><b>Все.</b> Ви готові працювати в Huly. Тримайте цей гайд у закладках — і повертайтеся до потрібного розділу, коли знадобиться.</p></div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="foot">
+        <div class="cols">
+          <div>
+            <b>Наш простір</b>
+            <ul>
+              <li><a href="https://huly.kdnx.cloud/workbench/kdnagency/time" target="_blank" rel="noopener">Відкрити Huly →</a></li>
+              <li><a href="https://huly.kdnx.cloud/workbench/kdnagency/tracker" target="_blank" rel="noopener">Трекер задач</a></li>
+            </ul>
+          </div>
+          <div>
+            <b>Документація Huly</b>
+            <ul>
+              <li><a href="https://docs.huly.io/getting-started/introduction-huly/" target="_blank" rel="noopener">Вступ</a></li>
+              <li><a href="https://docs.huly.io/task-tracking/creating-issues/" target="_blank" rel="noopener">Створення задач</a></li>
+              <li><a href="https://docs.huly.io/task-tracking/creating-projects/" target="_blank" rel="noopener">Створення проєктів</a></li>
+            </ul>
+          </div>
+          <div>
+            <b>Проєкт</b>
+            <ul>
+              <li><a href="https://huly.io/" target="_blank" rel="noopener">huly.io</a></li>
+              <li><a href="https://github.com/hcengineering/platform" target="_blank" rel="noopener">GitHub платформи</a></li>
+            </ul>
+          </div>
+        </div>
+        <p style="margin:0; color:var(--faint); font-size:12.5px;">Внутрішній посібник команди <strong style="color:var(--muted)">kdnagency</strong>. Складено українською для зручного переходу з Linear на Huly. Матеріали Huly — за офіційною документацією docs.huly.io.</p>
+      </footer>
+
+    </div>
+  </main>
+</div>
+
+<!-- Theme toggle -->
+<button class="theme-btn" data-theme-toggle aria-label="Перемкнути тему">
+  <svg class="sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+  <svg class="moon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+</button>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+
+    /* Theme toggle */
+    function currentTheme() {
+      var set = root.getAttribute('data-theme');
+      if (set) return set;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    var tbtn = document.querySelector('[data-theme-toggle]');
+    if (tbtn) tbtn.addEventListener('click', function () {
+      var next = currentTheme() === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('kdn-huly-theme', next); } catch (e) {}
+    });
+
+    /* Mobile nav */
+    function setNav(open) { root.setAttribute('data-nav', open ? 'open' : 'closed'); }
+    document.querySelectorAll('[data-toggle-nav]').forEach(function (b) {
+      b.addEventListener('click', function () { setNav(root.getAttribute('data-nav') !== 'open'); });
+    });
+    document.querySelectorAll('[data-close-nav]').forEach(function (b) {
+      b.addEventListener('click', function () { setNav(false); });
+    });
+
+    /* Scrollspy + close nav on click */
+    var links = Array.prototype.slice.call(document.querySelectorAll('#toc a'));
+    var byId = {};
+    links.forEach(function (a) {
+      byId[a.getAttribute('href').slice(1)] = a;
+      a.addEventListener('click', function () { if (window.innerWidth <= 940) setNav(false); });
+    });
+    var sections = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
+    if ('IntersectionObserver' in window) {
+      var spy = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            links.forEach(function (l) { l.classList.remove('active'); });
+            var a = byId[e.target.id];
+            if (a) {
+              a.classList.add('active');
+              a.scrollIntoView({ block: 'nearest' });
+            }
+          }
+        });
+      }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+      sections.forEach(function (s) { spy.observe(s); });
+    }
+  })();
+</script>
+<!-- BODY:END -->
+</body>
+</html>
