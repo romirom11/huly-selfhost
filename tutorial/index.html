@@ -319,6 +319,17 @@
   .row .meta { margin-left: auto; display: flex; align-items: center; gap: 10px; flex: none; }
   .ava { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 10.5px; font-weight: 700; color: #fff; flex: none; letter-spacing: 0; }
 
+  /* ---------- Screenshots ---------- */
+  figure.shot { margin: 20px 0 26px; max-width: var(--measure); }
+  figure.shot .frame { border: 1px solid var(--border-strong); border-radius: 13px; overflow: hidden; box-shadow: var(--shadow); background: var(--surface); }
+  figure.shot .bar { display: flex; align-items: center; gap: 7px; padding: 9px 13px; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+  figure.shot .bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--border-strong); flex: none; }
+  figure.shot .bar .u { margin-left: 10px; font-family: var(--mono); font-size: 11px; color: var(--faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  figure.shot img { display: block; width: 100%; height: auto; background: #fff; }
+  figure.shot figcaption { margin-top: 10px; font-size: 12.5px; color: var(--muted); display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; line-height: 1.5; }
+  figure.shot figcaption b { color: var(--ink-soft); font-weight: 640; }
+  figure.shot figcaption .src { margin-left: auto; font-family: var(--mono); font-size: 10.5px; color: var(--faint); }
+
   /* ---------- Comparison table ---------- */
   .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); margin: 20px 0; box-shadow: var(--shadow-sm); }
   table { border-collapse: collapse; width: 100%; min-width: 560px; background: var(--surface); font-size: 14px; }
@@ -579,6 +590,13 @@
           <li><b class="st-t">Заповніть налаштування</b>Найважливіше — <strong>Identifier</strong>: коротка абревіатура для ID задач (напр. <code class="inline">WEB</code> → задачі <code class="inline">WEB-1</code>, <code class="inline">WEB-2</code>).</li>
           <li><b class="st-t">Натисніть Create</b>Готово — проєкт з'явиться у списку.</li>
         </ol>
+        <figure class="shot">
+          <div class="frame">
+            <div class="bar"><i></i><i></i><i></i><span class="u">huly.kdnx.cloud › tracker › new project</span></div>
+            <img src="img/create-project.webp" alt="Діалог створення нового проєкту в Huly Tracker: поля назви, ідентифікатора, іконки, учасників і приватності" loading="lazy" width="1734" height="958">
+          </div>
+          <figcaption><b>Так виглядає створення проєкту.</b> У діалозі задаєте назву, <b>Identifier</b> (префікс ID задач), іконку, учасників і приватність. <span class="src">скриншот: docs.huly.io</span></figcaption>
+        </figure>
         <h3>Що можна налаштувати</h3>
         <ul>
           <li><strong>Project Type</strong> — за замовчуванням «Classic project».</li>
@@ -631,6 +649,13 @@
           <li><b class="st-t">Виставте статус, пріоритет, виконавця</b>Мінімум — виконавець і статус. Решта опційна.</li>
           <li><b class="st-t">Натисніть Create issue</b>Задача отримає свій ID (напр. <code class="inline">WEB-143</code>).</li>
         </ol>
+        <figure class="shot">
+          <div class="frame">
+            <div class="bar"><i></i><i></i><i></i><span class="u">huly.kdnx.cloud › tracker › new issue</span></div>
+            <img src="img/create-issue.webp" alt="Інтерфейс Huly Tracker з відкритим діалогом створення нової задачі поверх списку задач" loading="lazy" width="1734" height="958">
+          </div>
+          <figcaption><b>Діалог «+ New Issue» у справжньому інтерфейсі.</b> Зверху зліва — проєкт, далі назва, опис і властивості (статус, пріоритет, виконавець). <span class="src">скриншот: docs.huly.io</span></figcaption>
+        </figure>
 
         <h3>Поля задачі</h3>
         <ul>
@@ -640,6 +665,13 @@
           <li><strong>Parent Issue</strong> — прив'язати як підзадачу до батьківської.</li>
           <li><strong>Вкладення</strong> — файли, зображення, скріншоти.</li>
         </ul>
+        <figure class="shot">
+          <div class="frame">
+            <div class="bar"><i></i><i></i><i></i><span class="u">huly.kdnx.cloud › tracker › WEB-142</span></div>
+            <img src="img/issue-detail.webp" alt="Детальний вигляд задачі в Huly: опис, підзадачі, активність, а праворуч панель властивостей — статус, пріоритет, виконавець, мітки, оцінка, milestone" loading="lazy" width="2192" height="1718">
+          </div>
+          <figcaption><b>Відкрита задача.</b> Праворуч — уся панель властивостей: статус, пріоритет, виконавець, мітки, оцінка й milestone. Саме тут ви керуєте задачею щодня. <span class="src">скриншот: docs.huly.io</span></figcaption>
+        </figure>
 
         <div class="callout tip"><div class="ic">★</div><p><b>Автоматика, якої не було в Linear:</b> якщо поставити задачі статус <span class="pill todo"><span class="dot"></span>Todo</span> і призначити виконавця, у його <b>Планері</b> автоматично з'явиться пункт на день. Менше ручного планування.</p></div>
 
@@ -671,6 +703,13 @@
           <li><span class="pill done"><span class="dot"></span>Done</span> — завершено.</li>
           <li><span class="pill cancel"><span class="dot"></span>Cancelled</span> — скасовано / не робимо.</li>
         </ul>
+        <figure class="shot">
+          <div class="frame">
+            <div class="bar"><i></i><i></i><i></i><span class="u">huly.kdnx.cloud › tracker › grouped by status</span></div>
+            <img src="img/status-board.webp" alt="Список задач у Huly, згрупований за статусами: секції In Progress, Todo, Done, Backlog з кольоровими позначками статусу" loading="lazy" width="2580" height="1768">
+          </div>
+          <figcaption><b>Дошка, згрупована за статусом.</b> Задачі зібрані в секції <b>In Progress / Todo / Done / Backlog</b> — звичний «канбан» вигляд. Тут же вгорі — фільтри (див. розділ 10). <span class="src">скриншот: docs.huly.io</span></figcaption>
+        </figure>
         <p>Кожен проєкт може мати власні статуси в межах цих категорій — налаштовується в параметрах проєкту. Групуйте дошку <strong>за статусом</strong>, щоб отримати звичний вигляд «канбан».</p>
         <div class="callout tip"><div class="ic">★</div><p>Не забувайте <b>оновлювати статус</b> — це головне джерело прозорості для команди. По статусах одразу видно, хто чим зайнятий і що застрягло.</p></div>
       </section>
@@ -697,6 +736,13 @@
           <li><b class="st-t">Натисніть <kbd>+ Milestone</kbd></b>Кнопка вгорі праворуч. Задайте назву й дату.</li>
           <li><b class="st-t">Прив'язуйте задачі</b>У задачі вкажіть відповідний milestone — і бачите прогрес до цілі.</li>
         </ol>
+        <figure class="shot">
+          <div class="frame">
+            <div class="bar"><i></i><i></i><i></i><span class="u">huly.kdnx.cloud › tracker › milestones</span></div>
+            <img src="img/milestones.webp" alt="Вигляд Трекера з контекстним меню для призначення milestone задачі" loading="lazy" width="1737" height="959">
+          </div>
+          <figcaption><b>Призначення milestone задачі.</b> Прямо у списку Трекера через контекстне меню обираєте потрібний milestone — і задача підв'язується до цілі. <span class="src">скриншот: docs.huly.io</span></figcaption>
+        </figure>
         <div class="callout note"><div class="ic">i</div><p><b>Проста логіка:</b> «над чим працюємо взагалі» = компонент, «до якого дедлайну» = milestone. Задача може мати і те, і те.</p></div>
       </section>
 
